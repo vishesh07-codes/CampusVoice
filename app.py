@@ -58,7 +58,7 @@ def student_portal():
         db.session.add(new_complaint)
         db.session.commit()
         flash(
-            f"Complaint successfully lodge ho gayi! Tracking ID: #{new_complaint.id}",
+            f"Aapki complaint darj ho chuki hai! Ticket ID: #{new_complaint.id}. Hum jald hi action lenge.",
             "success",
         )
         return redirect(url_for("student_portal", search_roll=roll))
