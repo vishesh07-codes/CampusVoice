@@ -23,13 +23,18 @@ class Complaint(db.Model):
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
 
+# Ensure database tables exist for both Gunicorn & Local run
+with app.app_context():
+    db.create_all()
+
+
 # 1. Landing Page
 @app.route("/")
 def home():
     return render_template("index.html")
 
 
-# 2. Student Portal
+# 2. Student Portal: Lodge & Track
 @app.route("/student", methods=["GET", "POST"])
 def student_portal():
     if request.method == "POST":
@@ -105,6 +110,4 @@ def update_status(complaint_id):
 
 
 if __name__ == "__main__":
-    with app.app_context():
-        db.create_all()
     app.run(debug=True, port=5000)
