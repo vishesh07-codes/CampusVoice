@@ -1,0 +1,129 @@
+{% extends "base.html" %} {% block content %}
+<div class="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+  <div
+    class="flex flex-col md:flex-row md:items-center justify-between pb-4 border-b gap-4"
+  >
+    <div>
+      <h2 class="text-xl font-bold text-gray-900">Admin Resolution Panel</h2>
+      <p class="text-xs text-gray-500">
+        Student issues review karein aur update karein
+      </p>
+    </div>
+
+    <!-- Filters -->
+    <form
+      method="GET"
+      action="{{ url_for('admin_portal') }}"
+      class="flex flex-wrap gap-2 text-sm"
+    >
+      <select name="category" class="border rounded-md px-2 py-1 text-xs">
+        <option value="">All Categories</option>
+        <option value="Hostel Maintenance">Hostel</option>
+        <option value="Mess & Canteen">Mess</option>
+        <option value="Academic">Academic</option>
+        <option value="Wi-Fi & IT">Wi-Fi/IT</option>
+        <option value="Other">Other</option>
+      </select>
+
+      <select name="status" class="border rounded-md px-2 py-1 text-xs">
+        <option value="">All Statuses</option>
+        <option value="Pending">Pending</option>
+        <option value="In Progress">In Progress</option>
+        <option value="Resolved">Resolved</option>
+      </select>
+
+      <button
+        type="submit"
+        class="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded text-xs"
+      >
+        Filter
+      </button>
+      <a
+        href="{{ url_for('admin_portal') }}"
+        class="bg-gray-200 hover:bg-gray-300 text-gray-700 px-3 py-1 rounded text-xs inline-flex items-center"
+        >Reset</a
+      >
+    </form>
+  </div>
+
+  <!-- Complaint List -->
+  <div class="mt-6 overflow-x-auto">
+    <table class="w-full text-left text-sm border-collapse">
+      <thead>
+        <tr class="bg-gray-100 text-gray-600 text-xs uppercase border-b">
+          <th class="p-3">ID</th>
+          <th class="p-3">Student & Roll</th>
+          <th class="p-3">Issue</th>
+          <th class="p-3">Status</th>
+          <th class="p-3">Action</th>
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-gray-200">
+        {% for c in complaints %}
+        <tr class="hover:bg-gray-50">
+          <td class="p-3 font-semibold text-gray-500">#{{ c.id }}</td>
+          <td class="p-3">
+            <div class="font-medium text-gray-900">{{ c.student_name }}</div>
+            <div class="text-xs text-gray-400">{{ c.roll_number }}</div>
+          </td>
+          <td class="p-3 max-w-xs">
+            <span
+              class="inline-block bg-gray-200 text-gray-800 text-[10px] px-2 py-0.5 rounded mb-1"
+              >{{ c.category }}</span
+            >
+            <div class="font-semibold text-gray-800">{{ c.title }}</div>
+            <div
+              class="text-xs text-gray-600 truncate"
+              title="{{ c.description }}"
+            >
+              {{ c.description }}
+            </div>
+          </td>
+          <td class="p-3">
+            <span
+              class="px-2.5 py-1 rounded-full text-xs font-semibold {% if c.status == 'Pending' %}bg-yellow-100 text-yellow-800 {% elif c.status == 'In Progress' %}bg-blue-100 text-blue-800 {% elif c.status == 'Resolved' %}bg-green-100 text-green-800{% endif %}"
+            >
+              {{ c.status }}
+            </span>
+          </td>
+          <td class="p-3">
+            <form
+              action="{{ url_for('update_status', complaint_id=c.id) }}"
+              method="POST"
+              class="space-y-1.5"
+            >
+              <div class="flex gap-2">
+                <select name="status" class="border text-xs rounded px-2 py-1">
+                  <option value="Pending">Pending</option>
+                  <option value="In Progress">In Progress</option>
+                  <option value="Resolved">Resolved</option>
+                </select>
+                <button
+                  type="submit"
+                  class="bg-emerald-600 hover:bg-emerald-700 text-white px-2.5 py-1 rounded text-xs"
+                >
+                  Save
+                </button>
+              </div>
+              <input
+                type="text"
+                name="admin_remark"
+                value="{{ c.admin_remark }}"
+                placeholder="Add remark..."
+                class="w-full border text-xs rounded px-2 py-1"
+              />
+            </form>
+          </td>
+        </tr>
+        {% else %}
+        <tr>
+          <td colspan="5" class="p-6 text-center text-gray-400 text-sm">
+            Koi complaint nahi mili.
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}
