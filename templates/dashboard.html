@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Admin Panel - College Complaint System</title>
+    <title>Student Dashboard | College Complaint System</title>
     <link
       rel="stylesheet"
       href="{{ url_for('static', filename='css/style.css') }}"
@@ -16,68 +16,47 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
     />
-    <style>
-      .action-form {
-        display: flex;
-        gap: 6px;
-        align-items: center;
-      }
-      .status-select {
-        padding: 4px 6px;
-        border-radius: 4px;
-        border: 1px solid #cbd5e1;
-        font-size: 12px;
-        background: #fff;
-      }
-      .remark-input {
-        padding: 4px 6px;
-        border-radius: 4px;
-        border: 1px solid #cbd5e1;
-        font-size: 12px;
-        width: 130px;
-      }
-      .save-btn {
-        background-color: #2563eb;
-        color: #ffffff;
-        border: none;
-        padding: 5px 12px;
-        border-radius: 4px;
-        cursor: pointer;
-        font-size: 12px;
-        font-weight: 600;
-      }
-      .save-btn:hover {
-        background-color: #1d4ed8;
-      }
-    </style>
   </head>
   <body>
-    <!-- ADMIN NAVBAR -->
+    <!-- NAVBAR -->
     <header class="navbar">
       <div class="brand">
         <i class="fa-solid fa-building-columns"></i>
-        <span>College Complaint System - Admin Panel</span>
+        <span>College Complaint System</span>
       </div>
       <div class="nav-links">
+        <a href="{{ url_for('student_dashboard') }}" class="active"
+          >Dashboard</a
+        >
+        <a href="{{ url_for('submit_complaint') }}">Submit Complaint</a>
+        <a href="{{ url_for('my_complaints') }}">My Complaints</a>
         <a href="{{ url_for('logout') }}" class="login-btn">Logout</a>
       </div>
     </header>
 
     <div class="dashboard-container">
-      <!-- ADMIN SIDEBAR -->
+      <!-- SIDEBAR -->
       <aside class="dashboard-sidebar">
         <div class="student-profile">
           <div class="profile-icon">
-            <i class="fa-solid fa-user-shield"></i>
+            <i class="fa-solid fa-circle-user"></i>
           </div>
-          <h3>Admin</h3>
-          <p>Administration</p>
+          <h3>{{ name }}</h3>
+          <p>Student Account</p>
         </div>
 
         <nav class="sidebar-menu">
-          <a href="{{ url_for('admin_dashboard') }}" class="sidebar-active">
+          <a href="{{ url_for('student_dashboard') }}" class="sidebar-active">
             <i class="fa-solid fa-chart-pie"></i> Dashboard
           </a>
+          <a href="{{ url_for('submit_complaint') }}">
+            <i class="fa-solid fa-pen-to-square"></i> Submit Complaint
+          </a>
+          <a href="{{ url_for('my_complaints') }}">
+            <i class="fa-solid fa-list-check"></i> My Complaints
+          </a>
+          <a href="#"> <i class="fa-solid fa-user"></i> Profile </a>
+          <a href="#"> <i class="fa-solid fa-key"></i> Change Password </a>
           <a href="{{ url_for('logout') }}">
             <i class="fa-solid fa-right-from-bracket"></i> Logout
           </a>
@@ -88,12 +67,18 @@
       <main class="dashboard-main">
         <section class="welcome-section">
           <div>
-            <h1>Dashboard</h1>
-            <p>Welcome to the College Complaint System Admin Panel</p>
+            <h1>Welcome, {{ name }}! 👋</h1>
+            <p>Manage and track your complaints from your dashboard.</p>
           </div>
+          <a
+            href="{{ url_for('submit_complaint') }}"
+            class="dashboard-submit-btn"
+          >
+            + New Complaint
+          </a>
         </section>
 
-        <!-- STATS -->
+        <!-- STATS CARDS -->
         <section class="dashboard-cards">
           <div class="dashboard-card">
             <div class="card-icon blue">
@@ -136,12 +121,16 @@
           </div>
         </section>
 
-        <!-- COMPLAINTS TABLE -->
+        <!-- RECENT COMPLAINTS -->
         <section class="recent-section">
           <div class="section-heading">
             <div>
-              <h2>Student Complaints</h2>
+              <h2>Recent Complaints</h2>
+              <div class="title-line"></div>
             </div>
+            <a href="{{ url_for('my_complaints') }}" class="view-all-btn">
+              View All
+            </a>
           </div>
 
           <div class="table-container">
@@ -149,59 +138,32 @@
               <thead>
                 <tr>
                   <th>Complaint ID</th>
-                  <th>Student</th>
-                  <th>Category</th>
                   <th>Subject</th>
-                  <th>Current Status</th>
-                  <th>Update Action</th>
+                  <th>Category</th>
+                  <th>Status</th>
+                  <th>Date</th>
                 </tr>
               </thead>
               <tbody>
                 {% for c in complaints %}
                 <tr>
                   <td>#CMP{{ "%03d"|format(c.id) }}</td>
-                  <td><strong>{{ c.student.name }}</strong></td>
+                  <td>{{ c.subject }}</td>
                   <td>{{ c.category }}</td>
-                  <td>
-                    <div><strong>{{ c.subject }}</strong></div>
-                    <div style="font-size: 11px; color: #64748b">
-                      {{ c.description }}
-                    </div>
-                  </td>
                   <td>
                     <span class="status {{ c.status|lower|replace(' ', '') }}">
                       {{ c.status }}
                     </span>
                   </td>
-                  <td>
-                    <form
-                      action="{{ url_for('admin_update_status', complaint_id=c.id) }}"
-                      method="POST"
-                      class="action-form"
-                    >
-                      <select name="status" class="status-select">
-                        <option value="Pending">Pending</option>
-                        <option value="In Progress">In Progress</option>
-                        <option value="Resolved">Resolved</option>
-                        <option value="Rejected">Rejected</option>
-                      </select>
-                      <input
-                        type="text"
-                        name="admin_remark"
-                        placeholder="Remark"
-                        class="remark-input"
-                      />
-                      <button type="submit" class="save-btn">Save</button>
-                    </form>
-                  </td>
+                  <td>{{ c.created_at.strftime('%d %b %Y') }}</td>
                 </tr>
                 {% else %}
                 <tr>
                   <td
-                    colspan="6"
-                    style="text-align: center; padding: 25px; color: #888"
+                    colspan="5"
+                    style="text-align: center; padding: 20px; color: #888"
                   >
-                    No complaints to manage.
+                    Abhi tak koi complaint darj nahi ki hai.
                   </td>
                 </tr>
                 {% endfor %}

@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login | College Complaint System</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/login-register.css') }}"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    />
+  </head>
+  <body>
+    <header class="top-navbar">
+      <div class="navbar-left">
+        <div class="college-logo">
+          <i class="fa-solid fa-building-columns"></i>
+        </div>
+        <div class="system-title">College Complaint System</div>
+      </div>
+      <div class="navbar-right">
+        <a href="{{ url_for('home') }}">Home</a>
+      </div>
+    </header>
+
+    <main class="login-page">
+      <div class="login-card">
+        <h1>Login</h1>
+
+        {% with messages = get_flashed_messages(with_categories=true) %} {% if
+        messages %}
+        <div style="margin-bottom: 15px">
+          {% for category, message in messages %}
+          <p
+            style="color: {% if category == 'error' %}#dc2626{% else %}#16a34a{% endif %}; font-size: 14px; text-align: center;"
+          >
+            {{ message }}
+          </p>
+          {% endfor %}
+        </div>
+        {% endif %} {% endwith %}
+
+        <form action="{{ url_for('login') }}" method="POST">
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              placeholder="Enter your email"
+              required
+              autocomplete="email"
+            />
+          </div>
+
+          <div class="form-group password-group">
+            <label for="password">Password</label>
+            <div class="password-wrapper">
+              <input
+                type="password"
+                id="password"
+                name="password"
+                placeholder="Enter your password"
+                required
+                autocomplete="current-password"
+              />
+              <button
+                type="button"
+                class="eye-button"
+                onclick="togglePassword()"
+                aria-label="Show password"
+              >
+                <i id="eyeIcon" class="fa-solid fa-eye"></i>
+              </button>
+            </div>
+          </div>
+
+          <button type="submit" class="login-button">Login</button>
+        </form>
+
+        <p class="register-text">
+          Don't have an account?
+          <a href="{{ url_for('register') }}">Register here</a>
+        </p>
+      </div>
+    </main>
+
+    <script>
+      function togglePassword() {
+        const password = document.getElementById("password");
+        const eyeIcon = document.getElementById("eyeIcon");
+        if (password.type === "password") {
+          password.type = "text";
+          eyeIcon.classList.remove("fa-eye");
+          eyeIcon.classList.add("fa-eye-slash");
+        } else {
+          password.type = "password";
+          eyeIcon.classList.remove("fa-eye-slash");
+          eyeIcon.classList.add("fa-eye");
+        }
+      }
+    </script>
+  </body>
+</html>

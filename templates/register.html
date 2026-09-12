@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Student Registration | College Complaint System</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/login-register.css') }}"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    />
+  </head>
+  <body>
+    <header class="top-navbar">
+      <div class="navbar-left">
+        <div class="college-logo">
+          <i class="fa-solid fa-building-columns"></i>
+        </div>
+        <div class="system-title">College Complaint System</div>
+      </div>
+      <div class="navbar-right">
+        <a href="{{ url_for('home') }}">Home</a>
+      </div>
+    </header>
+
+    <main class="login-page">
+      <div class="login-card register-card">
+        <h1>Student Registration</h1>
+
+        {% with messages = get_flashed_messages(with_categories=true) %} {% if
+        messages %}
+        <div style="margin-bottom: 15px">
+          {% for category, message in messages %}
+          <p
+            style="color: {% if category == 'error' %}#dc2626{% else %}#16a34a{% endif %}; font-size: 14px; text-align: center;"
+          >
+            {{ message }}
+          </p>
+          {% endfor %}
+        </div>
+        {% endif %} {% endwith %}
+
+        <form action="{{ url_for('register') }}" method="POST">
+          <div class="form-group">
+            <label for="name">Full Name</label>
+            <input
+              type="text"
+              id="name"
+              name="name"
+              placeholder="Enter your full name"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              placeholder="Enter your email"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="password">Password</label>
+            <div class="password-wrapper">
+              <input
+                type="password"
+                id="password"
+                name="password"
+                placeholder="Create a password"
+                required
+              />
+              <button
+                type="button"
+                class="eye-button"
+                onclick="togglePassword('password', 'eyeIcon1')"
+              >
+                <i id="eyeIcon1" class="fa-solid fa-eye"></i>
+              </button>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="confirmPassword">Confirm Password</label>
+            <div class="password-wrapper">
+              <input
+                type="password"
+                id="confirmPassword"
+                name="confirm_password"
+                placeholder="Confirm your password"
+                required
+              />
+              <button
+                type="button"
+                class="eye-button"
+                onclick="togglePassword('confirmPassword', 'eyeIcon2')"
+              >
+                <i id="eyeIcon2" class="fa-solid fa-eye"></i>
+              </button>
+            </div>
+          </div>
+
+          <button type="submit" class="login-button">Register</button>
+        </form>
+
+        <p class="register-text">
+          Already have an account?
+          <a href="{{ url_for('login') }}">Login here</a>
+        </p>
+      </div>
+    </main>
+
+    <script>
+      function togglePassword(inputId, iconId) {
+        const password = document.getElementById(inputId);
+        const icon = document.getElementById(iconId);
+        if (password.type === "password") {
+          password.type = "text";
+          icon.classList.remove("fa-eye");
+          icon.classList.add("fa-eye-slash");
+        } else {
+          password.type = "password";
+          icon.classList.remove("fa-eye-slash");
+          icon.classList.add("fa-eye");
+        }
+      }
+    </script>
+  </body>
+</html>

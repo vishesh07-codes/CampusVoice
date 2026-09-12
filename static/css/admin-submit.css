@@ -1,0 +1,56 @@
+.submit-card {
+    background: #ffffff;
+    max-width: 650px;
+    padding: 30px;
+    border-radius: 10px;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+}
+
+.submit-card .form-group {
+    margin-bottom: 20px;
+}
+
+.submit-card label {
+    display: block;
+    font-size: 14px;
+    font-weight: 600;
+    color: #334155;
+    margin-bottom: 8px;
+}
+
+.submit-card select,
+.submit-card input,
+.submit-card textarea {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    font-size: 14px;
+    outline: none;
+    font-family: inherit;
+}
+
+.submit-card select:focus,
+.submit-card input:focus,
+.submit-card textarea:focus {
+    border-color: #2563eb;
+}
+
+.complaint-submit-btn {
+    background-color: #16a34a;
+    color: #ffffff;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 6px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.complaint-submit-btn:hover {
+    background-color: #15803d;
+}

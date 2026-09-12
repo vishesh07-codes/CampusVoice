@@ -1,0 +1,208 @@
+.dashboard-container {
+    display: flex;
+    flex: 1;
+}
+
+/* SIDEBAR */
+.dashboard-sidebar {
+    width: 250px;
+    background-color: #ffffff;
+    border-right: 1px solid #e2e8f0;
+    padding: 24px 16px;
+    display: flex;
+    flex-direction: column;
+}
+
+.student-profile {
+    text-align: center;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #e2e8f0;
+    margin-bottom: 20px;
+}
+
+.profile-icon {
+    font-size: 40px;
+    color: #64748b;
+    margin-bottom: 8px;
+}
+
+.student-profile h3 {
+    font-size: 16px;
+    color: #0f172a;
+    font-weight: 700;
+}
+
+.student-profile p {
+    font-size: 12px;
+    color: #94a3b8;
+}
+
+.sidebar-menu {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.sidebar-menu a {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 14px;
+    border-radius: 6px;
+    text-decoration: none;
+    color: #475569;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.sidebar-menu a:hover,
+.sidebar-menu a.sidebar-active {
+    background-color: #eff6ff;
+    color: #2563eb;
+    font-weight: 600;
+}
+
+/* MAIN AREA */
+.dashboard-main {
+    flex: 1;
+    padding: 30px 40px;
+    background-color: #f8fafc;
+}
+
+.welcome-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 28px;
+}
+
+.welcome-section h1 {
+    font-size: 24px;
+    color: #0f172a;
+    font-weight: 700;
+}
+
+.welcome-section p {
+    font-size: 14px;
+    color: #64748b;
+    margin-top: 4px;
+}
+
+.dashboard-submit-btn {
+    background-color: #2563eb;
+    color: #ffffff;
+    text-decoration: none;
+    padding: 10px 18px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+/* STATS CARDS */
+.dashboard-cards {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.dashboard-card {
+    background: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+    border: 1px solid #e2e8f0;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.card-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+}
+
+.card-icon.blue { background-color: #dbeafe; color: #1d4ed8; }
+.card-icon.orange { background-color: #ffedd5; color: #c2410c; }
+.card-icon.purple { background-color: #f3e8ff; color: #7e22ce; }
+.card-icon.green { background-color: #dcfce7; color: #15803d; }
+
+.dashboard-card h3 {
+    font-size: 13px;
+    color: #64748b;
+    font-weight: 500;
+}
+
+.dashboard-card p {
+    font-size: 22px;
+    color: #0f172a;
+    font-weight: 700;
+}
+
+/* TABLE SECTION */
+.recent-section {
+    background: #ffffff;
+    border-radius: 10px;
+    border: 1px solid #e2e8f0;
+    padding: 24px;
+}
+
+.section-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 18px;
+}
+
+.section-heading h2 {
+    font-size: 17px;
+    color: #0f172a;
+    font-weight: 700;
+}
+
+.view-all-btn {
+    color: #2563eb;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.table-container table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+}
+
+.table-container th {
+    background-color: #f8fafc;
+    color: #475569;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 12px 14px;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.table-container td {
+    padding: 14px;
+    border-bottom: 1px solid #e2e8f0;
+    font-size: 14px;
+    color: #334155;
+}
+
+/* STATUS BADGES */
+.status {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.status.pending { background-color: #fef3c7; color: #b45309; }
+.status.inprogress { background-color: #e0e7ff; color: #4338ca; }
+.status.resolved { background-color: #dcfce7; color: #15803d; }
+.status.rejected { background-color: #fee2e2; color: #b91c1c; }
