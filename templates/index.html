@@ -1,81 +1,401 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>College Complaint System</title>
-    <link
-      rel="stylesheet"
-      href="{{ url_for('static', filename='css/style.css') }}"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
-    />
-  </head>
-  <body>
-    <!-- NAVBAR -->
-    <header class="navbar">
-      <div class="brand">
-        <i class="fa-solid fa-building-columns"></i>
-        <span>College Complaint System</span>
-      </div>
+    <!-- Google Fonts & Font Awesome for exact icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Segoe+UI:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
 
-      <nav class="nav-links">
-        <a href="{{ url_for('home') }}" class="active">Home</a>
-        <a href="{{ url_for('login') }}" class="login-btn">Login</a>
-        <a href="{{ url_for('register') }}" class="register-btn">Register</a>
-      </nav>
-    </header>
+        body {
+            background-color: #ffffff;
+            color: #333333;
+            overflow-x: hidden;
+        }
+
+        /* ================= NAVIGATION BAR ================= */
+        .navbar {
+            background-color: #122b46;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 48px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar-brand {
+            color: #ffffff;
+            font-size: 1.25rem;
+            font-weight: 700;
+            text-decoration: none;
+            letter-spacing: 0.3px;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: #e5eaf0;
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: color 0.2s ease;
+        }
+
+        .nav-links a:hover {
+            color: #ffffff;
+        }
+
+        .btn-nav-login {
+            border: 1.5px solid #ffffff;
+            color: #ffffff !important;
+            padding: 7px 22px;
+            border-radius: 6px;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+
+        .btn-nav-login:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .btn-nav-register {
+            background-color: #ffffff;
+            color: #122b46 !important;
+            padding: 7px 22px;
+            border-radius: 6px;
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+
+        .btn-nav-register:hover {
+            background-color: #e2e8f0;
+        }
+
+        /* ================= HERO SECTION ================= */
+        .hero {
+            background-color: #eef5fc;
+            padding: 100px 20px 110px;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 2.35rem;
+            font-weight: 700;
+            color: #122b46;
+            margin-bottom: 18px;
+            line-height: 1.3;
+        }
+
+        .hero p {
+            color: #4b5e71;
+            font-size: 1.05rem;
+            margin-bottom: 34px;
+            font-weight: 400;
+        }
+
+        .hero-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 14px;
+        }
+
+        .btn-primary {
+            background-color: #2563eb;
+            color: #ffffff;
+            padding: 10px 26px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 600;
+            border: 1px solid #2563eb;
+            transition: background 0.2s ease;
+        }
+
+        .btn-primary:hover {
+            background-color: #1d4ed8;
+        }
+
+        .btn-secondary {
+            background-color: #ffffff;
+            color: #2563eb;
+            padding: 10px 26px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 600;
+            border: 1px solid #93c5fd;
+            transition: all 0.2s ease;
+        }
+
+        .btn-secondary:hover {
+            background-color: #f1f5f9;
+        }
+
+        /* ================= SECTION COMMON STYLES ================= */
+        .section {
+            padding: 85px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .section-title {
+            font-size: 1.95rem;
+            font-weight: 700;
+            color: #122b46;
+            margin-bottom: 50px;
+            display: inline-block;
+            position: relative;
+        }
+
+        /* Underline accent on highlighted word */
+        .section-title span {
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-title span::after {
+            content: '';
+            position: absolute;
+            bottom: -6px;
+            left: 0;
+            width: 100%;
+            height: 3.5px;
+            background-color: #2563eb;
+            border-radius: 2px;
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 28px;
+            justify-content: center;
+        }
+
+        /* ================= WHY CHOOSE US CARDS ================= */
+        .feature-card {
+            background: #ffffff;
+            border: 1px solid #e9eef4;
+            border-radius: 12px;
+            padding: 38px 24px;
+            box-shadow: 0 4px 18px rgba(18, 43, 70, 0.05);
+            display: flex;
+            align-items: center;
+            text-align: left;
+            gap: 20px;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(18, 43, 70, 0.08);
+        }
+
+        .icon-circle {
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            color: #ffffff;
+            flex-shrink: 0;
+        }
+
+        .icon-blue { background-color: #2563eb; }
+        .icon-purple { background-color: #7c3aed; }
+        .icon-yellow { background-color: #eab308; }
+
+        .feature-info h3 {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: #122b46;
+            margin-bottom: 6px;
+        }
+
+        .feature-info p {
+            font-size: 0.88rem;
+            color: #64748b;
+            line-height: 1.45;
+        }
+
+        /* ================= HOW IT WORKS CARDS ================= */
+        .step-card {
+            background: #ffffff;
+            border: 1px solid #e9eef4;
+            border-radius: 12px;
+            padding: 42px 24px;
+            box-shadow: 0 4px 18px rgba(18, 43, 70, 0.05);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .step-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(18, 43, 70, 0.08);
+        }
+
+        .step-number {
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 20px;
+        }
+
+        .step-blue { background-color: #2563eb; }
+        .step-green { background-color: #22c55e; }
+        .step-purple { background-color: #7c3aed; }
+
+        .step-card h3 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #122b46;
+            margin-bottom: 8px;
+        }
+
+        .step-card p {
+            font-size: 0.9rem;
+            color: #64748b;
+            line-height: 1.45;
+        }
+
+        /* ================= FOOTER ================= */
+        footer {
+            background-color: #122b46;
+            color: #e5eaf0;
+            text-align: center;
+            padding: 22px 20px;
+            font-size: 0.88rem;
+            font-weight: 400;
+            margin-top: 40px;
+        }
+
+        /* Responsive Breakpoints */
+        @media (max-width: 900px) {
+            .cards-grid {
+                grid-template-columns: 1fr;
+                max-width: 480px;
+                margin: 0 auto;
+            }
+            .navbar {
+                padding: 16px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <a href="{{ url_for('home') }}" class="navbar-brand">College Complaint System</a>
+        <ul class="nav-links">
+            <li><a href="{{ url_for('home') }}">Home</a></li>
+            <li><a href="#why-us">About</a></li>
+            <li><a href="#how-it-works">Contact</a></li>
+            <li><a href="{{ url_for('login') }}" class="btn-nav-login">Login</a></li>
+            <li><a href="{{ url_for('register') }}" class="btn-nav-register">Register</a></li>
+        </ul>
+    </nav>
 
     <!-- HERO SECTION -->
-    <section class="hero">
-      <div class="hero-content">
-        <h1>College Complaint Management System</h1>
-        <p>
-          Submit your college complaints online and track their status easily.
-        </p>
+    <header class="hero">
+        <h1>College Complaint Management<br>System</h1>
+        <p>Submit your college complaints online and track their status easily.</p>
         <div class="hero-buttons">
-          <a href="{{ url_for('login') }}" class="submit-btn"
-            >Submit Complaint</a
-          >
-          <a href="{{ url_for('register') }}" class="track-btn">Register</a>
+            <a href="{{ url_for('login') }}" class="btn-primary">Submit</a>
+            <a href="{{ url_for('register') }}" class="btn-secondary">Register</a>
         </div>
-      </div>
+    </header>
+
+    <!-- WHY USE OUR SYSTEM SECTION -->
+    <section class="section" id="why-us">
+        <h2 class="section-title">Why Use <span>Our</span> System?</h2>
+        <div class="cards-grid">
+            <div class="feature-card">
+                <div class="icon-circle icon-blue">
+                    <i class="fa-solid fa-paper-plane"></i>
+                </div>
+                <div class="feature-info">
+                    <h3>Easy Complaint</h3>
+                    <p>Submit your complaint online in a few simple steps.</p>
+                </div>
+            </div>
+
+            <div class="feature-card">
+                <div class="icon-circle icon-purple">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </div>
+                <div class="feature-info">
+                    <h3>Track Status</h3>
+                    <p>Check the current status of your complaint easily.</p>
+                </div>
+            </div>
+
+            <div class="feature-card">
+                <div class="icon-circle icon-yellow">
+                    <i class="fa-regular fa-folder-open"></i>
+                </div>
+                <div class="feature-info">
+                    <h3>Digital Records</h3>
+                    <p>Complaints are stored digitally for easy management.</p>
+                </div>
+            </div>
+        </div>
     </section>
 
-    <!-- FEATURES -->
-    <section class="features-section">
-      <h2>Why Use Our System?</h2>
-      <div class="title-line"></div>
-      <div class="features-container">
-        <div class="feature-card">
-          <div class="feature-icon blue">➤</div>
-          <div class="feature-text">
-            <h3>Easy Complaint</h3>
-            <p>Submit your complaint online in a few simple steps.</p>
-          </div>
+    <!-- HOW IT WORKS SECTION -->
+    <section class="section" id="how-it-works">
+        <h2 class="section-title">How <span>It</span> Works</h2>
+        <div class="cards-grid">
+            <div class="step-card">
+                <div class="step-number step-blue">1</div>
+                <h3>Submit</h3>
+                <p>Submit your complaint online.</p>
+            </div>
+
+            <div class="step-card">
+                <div class="step-number step-green">2</div>
+                <h3>Admin Checks</h3>
+                <p>Admin reviews your complaint.</p>
+            </div>
+
+            <div class="step-card">
+                <div class="step-number step-purple">3</div>
+                <h3>Status Updated</h3>
+                <p>Check the updated complaint status.</p>
+            </div>
         </div>
-        <div class="feature-card">
-          <div class="feature-icon purple">⌕</div>
-          <div class="feature-text">
-            <h3>Track Status</h3>
-            <p>Check the current status of your complaint easily.</p>
-          </div>
-        </div>
-        <div class="feature-card">
-          <div class="feature-icon orange">▱</div>
-          <div class="feature-text">
-            <h3>Digital Records</h3>
-            <p>Complaints are stored digitally for easy management.</p>
-          </div>
-        </div>
-      </div>
     </section>
 
     <!-- FOOTER -->
-    <footer class="footer">
-      <p>© 2026 College Complaint System | Team Shadow Coder</p>
+    <footer>
+        &copy; 2026 College Complaint System | Team Shadow Coder
     </footer>
-  </body>
+
+</body>
 </html>
