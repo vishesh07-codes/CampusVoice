@@ -6,9 +6,21 @@ from datetime import datetime
 
 app = Flask(__name__)
 app.config["SECRET_KEY"] = "college-complaint-secret-key-2026"
-app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get(
-    "DATABASE_URL", "mysql+pymysql://root:@localhost/college_complaint_db"
-)
+
+database_url = os.environ.get("DATABASE_URL")
+if database_url:
+    if database_url.startswith("postgres://"):
+        database_url = database_url.replace("postgres://", "postgresql://", 1)
+    app.config["SQLALCHEMY_DATABASE_URI"] = database_url
+elif os.environ.get("RENDER"):
+    # Render par agar cloud DB nahi hai toh safe fallback (crash nahi hoga)
+    app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///college_system.db"
+else:
+    # Aapke local laptop par XAMPP MySQL chalega
+    app.config["SQLALCHEMY_DATABASE_URI"] = (
+        "mysql+pymysql://root:@localhost/college_complaint_db"
+    )
+
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 db = SQLAlchemy(app)
