@@ -245,5 +245,19 @@ def logout():
     return redirect(url_for("home"))
 
 
+with app.app_context():
+    db.create_all()
+    admin_user = User.query.filter_by(email="admin@college.com").first()
+    if not admin_user:
+        hashed_password = generate_password_hash("admin123")
+        default_admin = User(
+            name="System Admin",
+            email="admin@college.com",
+            password=hashed_password,
+            role="admin",
+        )
+        db.session.add(default_admin)
+        db.session.commit()
+
 if __name__ == "__main__":
     app.run(debug=True, port=5000)
