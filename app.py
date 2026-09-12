@@ -1,3 +1,4 @@
+import os
 from flask import Flask, render_template, request, redirect, url_for, session, flash
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -5,7 +6,9 @@ from datetime import datetime
 
 app = Flask(__name__)
 app.config["SECRET_KEY"] = "college-complaint-secret-key-2026"
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///college_system.db"
+app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get(
+    "DATABASE_URL", "mysql+pymysql://root:@localhost/college_complaint_db"
+)
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 db = SQLAlchemy(app)
